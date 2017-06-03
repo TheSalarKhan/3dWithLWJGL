@@ -3,6 +3,7 @@ package game;
 import renderEngine.DisplayManager;
 import renderEngine.GameLoopDraw;
 import renderEngine.Mesh;
+import renderEngine.TexturedMesh;
 import shaders.StaticShader;
 
 public class Main {
@@ -25,7 +26,14 @@ public class Main {
 				3,1,2
 		};
 		
-		Mesh testMesh = new Mesh(vertices, indices);
+		float[] textureCords = {
+				0,0,
+				0,1,
+				1,1,
+				1,0
+		};
+		
+		TexturedMesh testMesh = new TexturedMesh(vertices, indices, textureCords, "texture");
 		
 		manager.setDraw(new GameLoopDraw() {
 			
