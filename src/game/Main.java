@@ -1,8 +1,10 @@
 package game;
 
+import org.joml.Vector3f;
+
+import entities.Entity;
 import renderEngine.DisplayManager;
 import renderEngine.GameLoopDraw;
-import renderEngine.Mesh;
 import renderEngine.TexturedMesh;
 import shaders.StaticShader;
 
@@ -35,14 +37,14 @@ public class Main {
 		
 		TexturedMesh testMesh = new TexturedMesh(vertices, indices, textureCords, "texture");
 		
+		Entity entity = new Entity(testMesh,new Vector3f(0,0,0),0,0,0,1, shader);
+		
 		manager.setDraw(new GameLoopDraw() {
 			
 			@Override
 			public void draw() {
 				
-				shader.start();
-				testMesh.draw();
-				shader.stop();
+				entity.draw();
 				
 			}
 		});
