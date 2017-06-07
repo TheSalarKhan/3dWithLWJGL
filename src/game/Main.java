@@ -1,10 +1,13 @@
 package game;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import entities.Entity;
+import renderEngine.Camera;
 import renderEngine.DisplayManager;
 import renderEngine.GameLoopDraw;
+import renderEngine.Renderer;
 import renderEngine.TexturedMesh;
 import shaders.StaticShader;
 
@@ -14,6 +17,10 @@ public class Main {
 		DisplayManager manager = DisplayManager.getInstance();
 		
 		StaticShader shader = new StaticShader();
+		
+		Renderer renderer = new Renderer(shader);
+		
+		Camera cam =  new Camera();
 		
 		float[] vertices = {
 				-0.5f, 0.5f, 0f,
@@ -37,17 +44,29 @@ public class Main {
 		
 		TexturedMesh testMesh = new TexturedMesh(vertices, indices, textureCords, "texture");
 		
-		Entity entity = new Entity(testMesh,new Vector3f(0,0,0),0,0,0,1, shader);
+		Entity entity = new Entity(testMesh,new Vector3f(0,0,-1),0,0,0,1, shader);
+		
+		
+		
+		
+		
+		
 		
 		manager.setDraw(new GameLoopDraw() {
 			
 			@Override
 			public void draw() {
-				
+				entity.increasePosition(0.002f, 0, -0.01f);
+				entity.increaseRotation(0, 1, 0);
+				cam.move();
+				shader.start();
+				shader.loadViewMatrix(cam);
 				entity.draw();
 				
 			}
 		});
 	}
+	
+	
 
 }

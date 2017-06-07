@@ -25,7 +25,20 @@ public class DisplayManager {
 	private final int HEIGHT;
 	private final String TITLE;
 	
+	
+	
+	public int getWidth() {
+		return WIDTH;
+	}
+
+	public int getHeight() {
+		return HEIGHT;
+	}
+	
 	private final long window;
+	public long getWindow() {
+		return window;
+	}
 	
 	
 	public void setDraw(GameLoopDraw draw) {
