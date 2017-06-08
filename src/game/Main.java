@@ -13,14 +13,14 @@ import renderEngine.DisplayManager;
 import renderEngine.GameLoopDraw;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
+import renderEngine.Texture;
 import renderEngine.TexturedMesh;
+import terrains.Terrain;
 
 public class Main {
 
 	public static void main(String[] args) {
 		DisplayManager manager = DisplayManager.getInstance();
-		
-//		StaticShader shader = new StaticShader();
 		
 		
 		
@@ -32,9 +32,10 @@ public class Main {
 		testMesh.getTexture().setReflectivity(0.5f);
 		
 		
-		Light light = new Light(new Vector3f(0,0,1),new Vector3f(1,1,1));
+		Light light = new Light(new Vector3f(0,2,0),new Vector3f(1,1,1));
 		
-		
+		Terrain terrain = new Terrain(0,0,"grass");
+		Terrain terrain2 = new Terrain(-1,-1,"grass");
 		
 		List<Entity> planes = new ArrayList<>();
 		
@@ -72,18 +73,10 @@ public class Main {
 					renderer.processEntity(entity);
 				}
 				
+				renderer.processTerrain(terrain);
 				
 				
 				renderer.render(light, cam);
-//				entity.increasePosition(0.002f, 0, -0.01f);
-//				
-				
-//				shader.start();
-//				shader.loadLight(light);
-//				shader.loadShineVariables(testMesh.getTexture().getShineDamper(), testMesh.getTexture().getReflectivity());
-//				shader.loadViewMatrix(cam);
-//				entity.draw();
-				
 			}
 		});
 		

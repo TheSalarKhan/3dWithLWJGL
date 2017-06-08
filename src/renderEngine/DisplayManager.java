@@ -15,7 +15,7 @@ public class DisplayManager {
 	
 	public static DisplayManager getInstance() {
 		if(Instance == null) {
-			Instance = new DisplayManager(640, 480, "My 3d game");
+			Instance = new DisplayManager(800, 600, "My 3d game");
 		}
 		
 		return Instance;
@@ -48,8 +48,8 @@ public class DisplayManager {
 		
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
 		
 		while(!glfwWindowShouldClose(window)) {
 			glfwPollEvents();

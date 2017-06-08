@@ -12,6 +12,24 @@ public class Camera {
 	private float yaw;
 	
 	public void move() {
+		if(KeyBoard.isKeyPressed(GLFW_KEY_I)) {
+			pitch -= 0.2f;
+		}
+		if(KeyBoard.isKeyPressed(GLFW_KEY_K)) {
+			pitch += 0.2f;
+		}
+		if(KeyBoard.isKeyPressed(GLFW_KEY_L)) {
+			yaw += 0.2f;
+		}
+		if(KeyBoard.isKeyPressed(GLFW_KEY_J)) {
+			yaw -= 0.2f;
+		}
+		if(KeyBoard.isKeyPressed(GLFW_KEY_Q)) {
+			position.y -= 0.02f;
+		}
+		if(KeyBoard.isKeyPressed(GLFW_KEY_E)) {
+			position.y += 0.02f;
+		}
 		if(KeyBoard.isKeyPressed(GLFW_KEY_W)) {
 			position.z -= 0.02f;
 		}

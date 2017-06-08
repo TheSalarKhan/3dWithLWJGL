@@ -106,30 +106,7 @@ public class TexturedMesh {
 		glDeleteTextures(texture.getId());
 		glDeleteVertexArrays(vao);
 	}
-	
-//	public void draw() {
-//		
-//		glBindVertexArray(vao);
-//		glEnableVertexAttribArray(0);
-//		glEnableVertexAttribArray(1);
-//		glEnableVertexAttribArray(2);
-//		
-//		glActiveTexture(GL_TEXTURE0);
-//		texture.bind();
-//		
-//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesVBO);
-//		
-//		glDrawElements(GL_TRIANGLES,vertexCount,GL_UNSIGNED_INT, 0);
-//		
-//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-//		
-//		
-//		glDisableVertexAttribArray(2);
-//		glDisableVertexAttribArray(1);
-//		glDisableVertexAttribArray(0);
-//		glBindVertexArray(0);
-//	}
-	
+
 	
 	
 }
