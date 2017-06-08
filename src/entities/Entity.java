@@ -13,7 +13,6 @@ public class Entity {
 	private Vector3f position;
 	private float rx,ry,rz;
 	private float scale;
-	private StaticShader shader;
 	
 	public void increasePosition(float dx, float dy, float dz) {
 		this.position.x += dx;
@@ -27,18 +26,10 @@ public class Entity {
 		this.rz += dz;
 	}
 	
-	private void uploadAllUniforms() {
-		Matrix4f transformationMatrix = Maths.createTransformationMatrix(position, rx, ry, rz, scale);
-		shader.loadTransformationMatrix(transformationMatrix);
-		
+	public Matrix4f getTransformationMatrix() {
+		return Maths.createTransformationMatrix(position, rx, ry, rz, scale);
 	}
 	
-	public void draw() {
-		shader.start();
-		uploadAllUniforms();
-		mesh.draw();
-		shader.stop();
-	}
 	
 	public TexturedMesh getMesh() {
 		return mesh;
@@ -88,7 +79,7 @@ public class Entity {
 		this.scale = scale;
 	}
 
-	public Entity(TexturedMesh mesh, Vector3f position, float rx, float ry, float rz, float scale, StaticShader shader) {
+	public Entity(TexturedMesh mesh, Vector3f position, float rx, float ry, float rz, float scale) {
 		super();
 		this.mesh = mesh;
 		this.position = position;
@@ -96,7 +87,6 @@ public class Entity {
 		this.ry = ry;
 		this.rz = rz;
 		this.scale = scale;
-		this.shader = shader;
 	}
 	
 	

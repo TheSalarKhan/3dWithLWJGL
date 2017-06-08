@@ -25,6 +25,18 @@ public class TexturedMesh {
 	public Texture getTexture() {
 		return texture;
 	}
+	
+	public int getVAO() {
+		return vao;
+	}
+	
+	public int getVertexCount() {
+		return vertexCount;
+	}
+	
+	public int getIndicesVBO() {
+		return indicesVBO;
+	}
 
 	public TexturedMesh(float[] vertices, int[] indices, float[] textureCoords, float[] normals , String imageName) {
 		vao = glGenVertexArrays();
@@ -95,28 +107,28 @@ public class TexturedMesh {
 		glDeleteVertexArrays(vao);
 	}
 	
-	public void draw() {
-		
-		glBindVertexArray(vao);
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-		
-		glActiveTexture(GL_TEXTURE0);
-		texture.bind();
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesVBO);
-		
-		glDrawElements(GL_TRIANGLES,vertexCount,GL_UNSIGNED_INT, 0);
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		
-		
-		glDisableVertexAttribArray(2);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(0);
-		glBindVertexArray(0);
-	}
+//	public void draw() {
+//		
+//		glBindVertexArray(vao);
+//		glEnableVertexAttribArray(0);
+//		glEnableVertexAttribArray(1);
+//		glEnableVertexAttribArray(2);
+//		
+//		glActiveTexture(GL_TEXTURE0);
+//		texture.bind();
+//		
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesVBO);
+//		
+//		glDrawElements(GL_TRIANGLES,vertexCount,GL_UNSIGNED_INT, 0);
+//		
+//		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//		
+//		
+//		glDisableVertexAttribArray(2);
+//		glDisableVertexAttribArray(1);
+//		glDisableVertexAttribArray(0);
+//		glBindVertexArray(0);
+//	}
 	
 	
 	
