@@ -47,10 +47,15 @@ public class DisplayManager {
 		}
 		
 		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		
 		while(!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
 			
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+			
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			
 			draw.draw();
 			

@@ -15,16 +15,26 @@ public class TexturedMesh {
 	private int indicesVBO;
 	private int texCoordsVBO;
 	
+	private int normalsVBO;
+	
 	private int vertexCount;
 	
 	private Texture texture;
+	
+	
+	public Texture getTexture() {
+		return texture;
+	}
 
-	public TexturedMesh(float[] vertices, int[] indices, float[] textureCoords, String imageName) {
+	public TexturedMesh(float[] vertices, int[] indices, float[] textureCoords, float[] normals , String imageName) {
 		vao = glGenVertexArrays();
 		glBindVertexArray(vao);
 		
 		storeVerticesInAttribList(0, vertices);
 		storeTextureCoordsInAttributeList(1, textureCoords);
+		storeNormalsInAttribList(2,normals);
+		
+		
 		setupIndices(indices);
 		
 		vertexCount = indices.length;
@@ -60,6 +70,11 @@ public class TexturedMesh {
 		storeFloatDataToVBO(attributeNumber, textureCoords, texCoordsVBO,2);
 	}
 	
+	private void storeNormalsInAttribList(int attributeNumber, float[] normals) {
+		normalsVBO = glGenBuffers();
+		
+		storeFloatDataToVBO(attributeNumber, normals, normalsVBO, 3);
+	}
 
 	private void storeFloatDataToVBO(int attributeNumber, float[] data, int vbo, int size) {
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -85,6 +100,7 @@ public class TexturedMesh {
 		glBindVertexArray(vao);
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 		
 		glActiveTexture(GL_TEXTURE0);
 		texture.bind();
@@ -96,7 +112,7 @@ public class TexturedMesh {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		
 		
-		
+		glDisableVertexAttribArray(2);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(0);
 		glBindVertexArray(0);

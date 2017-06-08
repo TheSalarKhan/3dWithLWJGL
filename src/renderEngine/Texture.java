@@ -17,6 +17,26 @@ public class Texture {
 	private int width;
 	private int height;
 	
+	private float shineDamper = 1;
+	private float reflectivity = 0;
+	
+	
+	public float getShineDamper() {
+		return shineDamper;
+	}
+
+	public void setShineDamper(float shineDamper) {
+		this.shineDamper = shineDamper;
+	}
+
+	public float getReflectivity() {
+		return reflectivity;
+	}
+
+	public void setReflectivity(float reflectivity) {
+		this.reflectivity = reflectivity;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -49,8 +69,8 @@ public class Texture {
 			
 			id = glGenTextures();
 			glBindTexture(GL_TEXTURE_2D, id);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			
 			glTexImage2D(GL_TEXTURE_2D, 0 , GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 			

@@ -4,9 +4,11 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import entities.Entity;
+import entities.Light;
 import renderEngine.Camera;
 import renderEngine.DisplayManager;
 import renderEngine.GameLoopDraw;
+import renderEngine.OBJLoader;
 import renderEngine.Renderer;
 import renderEngine.TexturedMesh;
 import shaders.StaticShader;
@@ -22,29 +24,16 @@ public class Main {
 		
 		Camera cam =  new Camera();
 		
-		float[] vertices = {
-				-0.5f, 0.5f, 0f,
-				-0.5f, -0.5f, 0f,
-				0.5f, -0.5f, 0f,
-				0.5f, 0.5f, 0f,
-				
-		};
 		
-		int[] indices = {
-				0,1,3,
-				3,1,2
-		};
+		TexturedMesh testMesh = OBJLoader.loadObjModel("f16");
 		
-		float[] textureCords = {
-				0,0,
-				0,1,
-				1,1,
-				1,0
-		};
+		testMesh.getTexture().setShineDamper(5);
+		testMesh.getTexture().setReflectivity(1);
 		
-		TexturedMesh testMesh = new TexturedMesh(vertices, indices, textureCords, "texture");
 		
-		Entity entity = new Entity(testMesh,new Vector3f(0,0,-1),0,0,0,1, shader);
+		Entity entity = new Entity(testMesh,new Vector3f(0,0,-2),0,0,0,0.5f, shader);
+		
+		Light light = new Light(new Vector3f(0,0,1),new Vector3f(1,1,1));
 		
 		
 		
@@ -56,10 +45,12 @@ public class Main {
 			
 			@Override
 			public void draw() {
-				entity.increasePosition(0.002f, 0, -0.01f);
-				entity.increaseRotation(0, 1, 0);
+//				entity.increasePosition(0.002f, 0, -0.01f);
+				entity.increaseRotation(0, 1, 2);
 				cam.move();
 				shader.start();
+				shader.loadLight(light);
+				shader.loadShineVariables(testMesh.getTexture().getShineDamper(), testMesh.getTexture().getReflectivity());
 				shader.loadViewMatrix(cam);
 				entity.draw();
 				
