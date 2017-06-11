@@ -61,6 +61,13 @@ public class EntityRenderer {
 		glEnableVertexAttribArray(2);
 		
 		glActiveTexture(GL_TEXTURE0);
+		
+		if(mesh.getTexture().hasTransparency()) {
+			MasterRenderer.disableCulling();
+		}
+		
+		shader.loadFakeLightingVariable(mesh.getTexture().hasFakeLighting());
+		
 		mesh.getTexture().bind();
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.getIndicesVBO());
@@ -71,6 +78,8 @@ public class EntityRenderer {
 	}
 	
 	public void unbindTexturedMesh() {
+		
+		MasterRenderer.enableCulling();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glDisableVertexAttribArray(2);
 		glDisableVertexAttribArray(1);

@@ -20,7 +20,15 @@ uniform vec3 lightPosition;
 
 uniform vec3 cameraPosition;
 
+uniform float useFakeLighting;
+
 void main(void) {
+	
+	vec3 actualNormal = normal;
+
+	if(useFakeLighting > 0.5) {
+		actualNormal = vec3(0.0,1.0,0.0);
+	}
 	
 	vec4 worldPosition = transformationMatrix * vec4(position.x,position.y,position.z,1.0);
 
@@ -28,8 +36,10 @@ void main(void) {
 
     pass_textureCoords = textureCoords;
 	
-	surfaceNormal = (transformationMatrix * vec4(normal,0)).xyz;
+	surfaceNormal = (transformationMatrix * vec4(actualNormal,0)).xyz;
 	toLightVector = lightPosition - worldPosition.xyz;
+
+	
 	
 	toCameraVector = cameraPosition - worldPosition.xyz;
 }

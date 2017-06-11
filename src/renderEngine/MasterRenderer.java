@@ -15,6 +15,17 @@ import shaders.TerrainShader;
 import terrains.Terrain;
 
 public class MasterRenderer {
+	
+	public static MasterRenderer instance;
+	
+	public static MasterRenderer getInstance() {
+		if(instance == null)
+			instance = new MasterRenderer();
+		
+		return instance;
+	}
+	
+	
 	private StaticShader shader;
 	private EntityRenderer renderer;
 	
@@ -55,14 +66,31 @@ public class MasterRenderer {
 		terrains.add(terrain);
 	}
 	
+	public static void enableCulling() {
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
+	}
 	
-	public MasterRenderer() {
-		this.shader = new StaticShader();
+	public static void disableCulling() {
+		GL11.glDisable(GL11.GL_CULL_FACE);
+	}
+	
+	
+	private MasterRenderer() {
 		
+		enableCulling();
+		
+		this.shader = new StaticShader();
+		this.terrainShader = new TerrainShader();
+		
+		updateProjectionMatrix();
+		
+		
+	}
+	
+	public void updateProjectionMatrix() {
 		this.projectionMatrix = createProjectionMatrix(FOV, FAR_PLANE, NEAR_PLANE);
 		this.renderer = new EntityRenderer(shader, projectionMatrix);
-		
-		this.terrainShader = new TerrainShader();
 		this.terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
 	}
 	

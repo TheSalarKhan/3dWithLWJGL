@@ -2,12 +2,17 @@ package renderEngine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 public class DisplayManager {
 	
+	public static interface WindowResized {
+		public void windowResized();
+	}
 	
 	private static DisplayManager Instance;
 	
@@ -21,9 +26,11 @@ public class DisplayManager {
 		return Instance;
 	}
 	
-	private final int WIDTH;
-	private final int HEIGHT;
+	private int WIDTH;
+	private int HEIGHT;
 	private final String TITLE;
+	
+	private WindowResized windowResizedCallback;
 	
 	
 	
@@ -35,7 +42,7 @@ public class DisplayManager {
 		return HEIGHT;
 	}
 	
-	private final long window;
+	private long window;
 	public long getWindow() {
 		return window;
 	}
@@ -48,8 +55,7 @@ public class DisplayManager {
 		
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_BACK);
+		
 		
 		while(!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
@@ -63,6 +69,10 @@ public class DisplayManager {
 		}
 		
 		glfwTerminate();
+	}
+	
+	public void setWindowResizedCallback(WindowResized callback) {
+		this.windowResizedCallback = callback;
 	}
 
 	private DisplayManager(int width, int height, String title) {
@@ -81,17 +91,44 @@ public class DisplayManager {
 		
 		glfwWindowHint(GLFW_VISIBLE,  GLFW_FALSE);
 		
+		
+		
 		window = glfwCreateWindow(WIDTH, HEIGHT, TITLE, 0, 0);
 		
 		if(window == 0) {
 			throw new IllegalStateException("Failed to create window!");
 		}
 		
+		glfwSetCursorPosCallback(window, new GLFWCursorPosCallback() {
+			
+			@Override
+			public void invoke(long arg0, double arg1, double arg2) {
+				System.out.println(arg1+","+arg2);
+			}
+		});
+		
+		
+		
 		glfwMakeContextCurrent(window);
 		GL.createCapabilities();
-		
+		GL11.glViewport(0, 0, WIDTH, HEIGHT);
 		glfwSwapInterval(1);
 		
+		glfwSetWindowSizeCallback(window,new GLFWWindowSizeCallback() {
+					
+			@Override
+			public void invoke(long arg0, int arg1, int arg2) {
+				
+				WIDTH = arg1;
+				HEIGHT = arg2;
+				GL11.glViewport(0, 0, WIDTH, HEIGHT);
+				
+				if(windowResizedCallback != null) {
+					windowResizedCallback.windowResized();
+				}
+				
+			}
+		});
 		
 		
 		GLFWVidMode videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());

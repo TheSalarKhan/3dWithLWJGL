@@ -27,36 +27,43 @@ public class Main {
 		Camera cam =  new Camera();
 		
 		
-		TexturedMesh testMesh = OBJLoader.loadObjModel("f16");
-		testMesh.getTexture().setShineDamper(10);
-		testMesh.getTexture().setReflectivity(0.5f);
+		TexturedMesh testMesh = OBJLoader.loadObjModel("grassModel","flower");
+		testMesh.getTexture().setTransparency(true);
+//		testMesh.getTexture().setShineDamper(10);
+//		testMesh.getTexture().setReflectivity(0.5f);
 		
 		
-		Light light = new Light(new Vector3f(0,2,0),new Vector3f(1,1,1));
+		Light light = new Light(new Vector3f(0,200,0),new Vector3f(1,1,1));
 		
 		Terrain terrain = new Terrain(0,0,"grass");
-		Terrain terrain2 = new Terrain(-1,-1,"grass");
 		
-		List<Entity> planes = new ArrayList<>();
-		
-		
+		List<Entity> entities = new ArrayList<>();
+
 		Random random = new Random();
-		
-		
-		for(int i=0;i< 500; i++) {
+	
+		for(int i=0;i< 50; i++) {
 			
 			float x = random.nextFloat() * 100 - 50;
-			float y = random.nextFloat() * 100 - 50;
+//			float y = random.nextFloat() * 100 - 50;
 			float z = random.nextFloat() * 100 - 50;
 			
 			
-			planes.add(new Entity(testMesh,new Vector3f(x,y,z),0,0,0,0.5f));
+			entities.add(new Entity(testMesh,new Vector3f(x,0,z),0,0,0,0.5f));
 		}
 		
 		
 		
 		
-		MasterRenderer renderer = new MasterRenderer();
+		MasterRenderer renderer = MasterRenderer.getInstance();
+		
+		manager.setWindowResizedCallback(new DisplayManager.WindowResized() {
+			
+			@Override
+			public void windowResized() {
+				System.out.println("Resized");
+				renderer.updateProjectionMatrix();
+			}
+		});
 		
 		manager.setDraw(new GameLoopDraw() {
 			
@@ -67,9 +74,8 @@ public class Main {
 				
 				cam.move();
 				
-				for(Entity entity: planes) {
+				for(Entity entity: entities) {
 					
-					entity.increaseRotation(1, 0, 0);
 					renderer.processEntity(entity);
 				}
 				

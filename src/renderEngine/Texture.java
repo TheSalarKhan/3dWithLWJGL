@@ -20,6 +20,25 @@ public class Texture {
 	private float shineDamper = 1;
 	private float reflectivity = 0;
 	
+	private boolean hasTransparency = false;
+	private boolean hasFakeLighting = true;
+	
+	public boolean hasTransparency() {
+		return hasTransparency;
+	}
+	
+	public boolean hasFakeLighting() {
+		return hasFakeLighting;
+	}
+	
+	public void setFakeLighting(boolean val) {
+		this.hasFakeLighting = val;
+	}
+	
+	public void setTransparency(boolean val) {
+		this.hasTransparency = val;
+	}
+	
 	
 	public float getShineDamper() {
 		return shineDamper;
